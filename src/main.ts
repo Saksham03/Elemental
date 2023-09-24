@@ -30,12 +30,12 @@ let prevTesselations: number = 5;
 let time: number = 0;
 let camPos: vec3 = vec3.fromValues(0, 0, 5);
 let lefBrowPos: vec3 = vec3.fromValues(-0.6, -0.7, 2.9);
-let leftEyePos: vec3 = vec3.fromValues(-0.55,-0.4, 0.895);
-let leftEyeballPos: vec3 = vec3.fromValues(-0.45,-0.36, 0.85);
+let leftEyePos: vec3 = vec3.fromValues(-0.55,-0.4, 0.9);
+let leftEyeballPos: vec3 = vec3.fromValues(-0.45,-0.363, 0.9);
 let radius: number = 1;
 let browRadius: number = radius * 0.25;
 let lashRadius: number = radius * 0.32;
-let eyeballRadius: number = radius * 0.146;
+let eyeballRadius: number = radius * 0.133;
 let outerFlameRadiusScale: number = 1.06;
 
 function loadScene() {  
@@ -94,9 +94,7 @@ function main() {
   gl.enable(gl.DEPTH_TEST);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-  gl.enable(gl.CULL_FACE);
-  gl.cullFace(gl.FRONT);
-  
+ 
   const baseEmber = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/fireball-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/iridescent-flame-frag.glsl')),
@@ -199,7 +197,7 @@ function main() {
     mat4.identity(eyeModelMatrix);
     quat.rotateZ(rot, rot, glMatrix.toRadian(-eye_zrot));
     quat.rotateY(rot, rot, glMatrix.toRadian(-eye_yrot)); 
-    mat4.fromRotationTranslationScale(eyeModelMatrix, rot, vec3.fromValues(-leftEyePos[0], leftEyePos[1], leftEyePos[2] + 0.035), vec3.fromValues(-1,1,1));   
+    mat4.fromRotationTranslationScale(eyeModelMatrix, rot, vec3.fromValues(-leftEyePos[0], leftEyePos[1], leftEyePos[2]), vec3.fromValues(-1,1,1));   
     eyeShader.setModelMatrix(eyeModelMatrix);
     eyeShader.setRadius(browRadius);
     renderer.render(camera, eyeShader, [
@@ -216,7 +214,7 @@ function main() {
     quat.rotateZ(rot, rot, glMatrix.toRadian(eye_zrot));
     quat.rotateY(rot, rot, glMatrix.toRadian(eye_yrot));
     mat4.fromRotationTranslation(eyeModelMatrix, rot, leftEyePos);
-    mat4.translate(eyeModelMatrix, eyeModelMatrix, vec3.fromValues(browRadius - lashRadius + 0.03, 0, -0.017));
+    mat4.translate(eyeModelMatrix, eyeModelMatrix, vec3.fromValues(browRadius - lashRadius + 0.03, 0, -0.01));
     let rot_after_trans: mat4 = mat4.create();
     mat4.rotateZ(rot_after_trans, rot_after_trans, glMatrix.toRadian(additional_lash_rot));
     mat4.multiply(eyeModelMatrix, rot_after_trans, eyeModelMatrix);
@@ -232,7 +230,7 @@ function main() {
     quat.rotateZ(rot, rot, glMatrix.toRadian(-eye_zrot));
     quat.rotateY(rot, rot, glMatrix.toRadian(-eye_yrot));
     mat4.fromRotationTranslationScale(eyeModelMatrix, rot, vec3.fromValues(-leftEyePos[0], leftEyePos[1], leftEyePos[2]), vec3.fromValues(-1,1,1));
-    mat4.translate(eyeModelMatrix, eyeModelMatrix, vec3.fromValues(browRadius - lashRadius + 0.03, 0, -0.003));
+    mat4.translate(eyeModelMatrix, eyeModelMatrix, vec3.fromValues(browRadius - lashRadius + 0.03, 0, -0.01));
     mat4.identity(rot_after_trans);
     mat4.rotateZ(rot_after_trans, rot_after_trans, glMatrix.toRadian(-additional_lash_rot));
     mat4.multiply(eyeModelMatrix, rot_after_trans, eyeModelMatrix);
@@ -248,6 +246,17 @@ function main() {
     mat4.fromTranslation(eyeModelMatrix, leftEyeballPos);
     eyeballShader.setGeometryColor(vec4.fromValues(0.8, 0.2, 0.2, 1));
     eyeballShader.setModelMatrix(eyeModelMatrix);
+    eyeballShader.setTime(time);
+    eyeballShader.setRadius(eyeballRadius);
+    renderer.render(camera, eyeballShader, [
+      eyeball
+    ]);
+
+    //right eyeball
+    mat4.identity(eyeModelMatrix);
+    mat4.fromTranslation(eyeModelMatrix, vec3.fromValues(-leftEyeballPos[0], leftEyeballPos[1], leftEyeballPos[2]));
+    eyeballShader.setModelMatrix(eyeModelMatrix);
+    eyeballShader.setTime(time);
     eyeballShader.setRadius(eyeballRadius);
     renderer.render(camera, eyeballShader, [
       eyeball

@@ -31,7 +31,7 @@ void main() {
     fs_Pos = vs_Pos;
     fs_Pos.x += u_IcosphereRadius;
     //flatten out the icosphere to make it a disc. Hacky, but we'll work with what we have.    
-    fs_Pos.z *= 0.05;
+    fs_Pos.z *= 0.045;
     if( fs_Pos.y >= 0.f) {
         fs_Pos.y = pcurve(1.0 - (fs_Pos.x/u_IcosphereRadius)*0.5, 0.4, 0.8) * 0.17;
         fs_Pos.y += bias(0.2, sawtooth_wave(-fs_Pos.x - 0.7, 10.9, 0.9)) * 0.05;              
