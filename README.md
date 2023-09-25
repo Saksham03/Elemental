@@ -1,11 +1,11 @@
 # Making Ember from Elemental, Procedurally!
-As I delve deeper into the world of Procedural Graphics, I wanted to use the various tools that this field equipped me with to create something close to my heart. Ember from Elemental (Pixar Animation Studios) was a character that I resonated with very deeply, and hence I wanted to use my learnings of Toolbox functions, noise functions, and WebGL to try to create her! [Try ineracting with her yourself!](https://saksham03.github.io/Elemental/)
+As I delve deeper into the world of Procedural Graphics, I wanted to use the various tools that this field equipped me with to create something close to my heart. Ember from Elemental (Pixar Animation Studios) was a character that I resonated with very deeply, and hence I wanted to use my learnings of Toolbox functions, noise functions, and WebGL to try to create her! [Try interacting with her yourself!](https://saksham03.github.io/Elemental/)
 Here is what I ended up with (GIF isn't super high-res, screenshot attached later) :  
 ![](captures/main_demo.gif)  
 Overall, I am pretty happy with the final result! I loved the artistic journey I was able to go on with this project, and develop an analytical thinking of using maths to create cool graphics. I will try documenting my 'art direction' below, both for my own sake for later reference and for anybody else who might be interested :)
 
 ## 1. Basics - Structure of Ember's Head
-The first step was of course to create the basic structure. I have used an icosphere mesh for all parts of Ember. I then use various mathematical functions to tweak it shape to make it look like waht I want. For the head, my sequential train of thought (with results) is as follows:
+The first step was of course to create the basic structure. I have used an icosphere mesh for all parts of Ember. I then use various mathematical functions to tweak it shape to make it look like what I want. For the head, my sequential train of thought (with results) was as follows:
 1. First, I squish (scale) the sphere to distort into a capsule-looking shape. Then, I apply a scaled sine wave to all the vertices to give the head a smiley-looking appearance. A section of the downard trend of the sin curve does the trick for me.
 
 | ![](captures/step1_1.jpg) | ![](captures/step1_2.jpg) | ![](captures/step1_3.jpg) |
@@ -22,7 +22,7 @@ The first step was of course to create the basic structure. I have used an icosp
 | ![](captures/func_sq_triang.jpg) <br> **+** <br> ![](captures/step3_1.jpg)|= ![](captures/step3_2.jpg) |
 |:--:|:--:|
 
-4. Finally, I add some **3D Perlin noise** on the top part as in my experience, 3D Perlin noise can be tweaked to give it the nice flamy look. For the bottom part, I add a high frequency low amplitude **3D FBM Noise** to give the surface that 'fiery' boiling look. Next up, we add an iridescent shader to give a gradient color palette to the surface that is made up of nice flame colors. I used [this](http://dev.thi.ng/gradients/) source to get the perfect **Cosine Color Gradient Palette** I wanted. The iridescent shader works using the geometry's normals, which gives it the required gradient at any viewing angle.
+4. Finally, I added some **3D Perlin noise** on the top part. I chose it because in my (little) experience, 3D Perlin noise can be tweaked to get the nice flamey/wavy look. For the bottom part, I add a high frequency low amplitude **3D FBM Noise** to give the surface that 'fiery' boiling look. Next up, I added an iridescent shader to give a gradient color palette to the surface that is made up of nice flame colors. I used [this](http://dev.thi.ng/gradients/) source to get the perfect **Cosine Color Gradient Palette** I wanted. The iridescent shader works using the geometry's normals, which gives it the required gradient at any viewing angle.
 
 | ![](captures/step3_2.jpg) | ![](captures/step3_3.gif) | ![](captures/step4_2_iridshader.gif) | ![](captures/step4_2_ss.jpg) |
 |:--:|:--:|:--:|:--:|
@@ -59,14 +59,14 @@ And when I was looking at [Inigo Quilez's Blog](https://iquilezles.org/articles/
 
 
 ## 4. Making the Eyelashes
-This waas probably the most fun part for me personally. I developed a thinking of how varioust oolbox functions could be employed for various use cases, and was proud of the result that came out of this process.
+This waas probably the most fun part for me personally. I developed a thinking of how various toolbox functions could be employed for a variety of use cases, and was proud of the result that came out of this process.
 1. I start, again, with an icosphere. For the top part, I first again apply a power curve :
 
 | ![](captures/eyelash_step1.jpg) | ![](captures/eyelash_step1_2.jpg) | ![](captures/eyelash_step1_3.jpg) |
 |:--:|:--:|:--:|
 | *Starting with an icosphere. Again.* | *For demonstration, taking off the bottom* | *Added a power curve* |
 
-2. Next, I wanted to give the lashes to this structure. For this, I used a saw-tooth curve:
+2. Next, I wanted to add the lashes on to this structure. For this, I used a saw-tooth curve:
 
 | ![](captures/func_sawtooth.jpg) <br> **+** <br> ![](captures/eyelash_step1_3.jpg)|= <br>![](captures/eyelash_step1_4.jpg) |
 |:--:|:--:|
@@ -84,11 +84,11 @@ This waas probably the most fun part for me personally. I developed a thinking o
 
 5. Finally, combining the two parts, I get my beautiful eyelash!
 
-| ![](captures/eyelash_step1_5.jpg) **+** ![](captures/eyelash_step2_2.jpg)|= ![](captures/eyelash_final.jpg) |
+| ![](captures/eyelash_step1_5.jpg)  <br> **+** <br>  ![](captures/eyelash_step2_2.jpg)|= ![](captures/eyelash_final.jpg) |
 |:--:|:--:|
 
 ## 5. The Eyeballs
-I was fortunately able to get done with this pretty quick. Wellm I did spend more time on this than I should have, but nonetheless this was simple. First, I added FBM noise to color the iris to give it a fiery look. Next, to make the pupils black, I simply used the coordinates mapped to the X-Y plane and used a fraction of the eyeball's radius to color a smaller radius black.
+I was fortunately able to get done with this pretty quickly. Well, I did spend more time on this than I should have, but nonetheless this was simple. First, I added FBM noise to color the iris to give it a fiery look. Next, to make the pupils black, I simply used the coordinates mapped to the X-Y plane and used a fraction of the eyeball's radius to color a smaller radius black.
 
 | ![](captures/eyeball_step1.jpg) | ![](captures/eyeball_step2.gif) | ![](captures/eyeball_map.jpg) | ![](captures/eyeball_step3.gif) |
 |:--:|:--:|:--:|:--:|
@@ -103,7 +103,7 @@ Once I had all the indiviudal pieces of the puzzle done as described above, I us
 I showed it to someone without context and they immediately went 'Oh! It is Ember from Elemental!'. I was just happy about the fact that it was recognizable to others :)
 
 ## An Experiment
-I was trying to get a volumetric flame-looking appearance around the face and the top part of Ember's head to match the look from the movie. However, the scaled geometry and weird mesh shape kept coming in my way. I was trying to use **FBM-interbed 3D Worley Noise** to drive the alpha channel for the final color. I used backface culling to keep the effect from covering Ember's face. The final output didn't look that appealing to me, but I did not want to throw it away. Hence I added a checkbox on the UI called _Render Outer Flame_ that is unchecked by default. If a user was to check it, they would see something like this: 
+I was trying to get a volumetric flame-looking appearance around the face and the top part of Ember's head to match the look from the movie. However, the scaled geometry and weird mesh shape kept coming in my way. I was trying to use **FBM-interbed 3D Worley Noise** to drive the alpha channel for the final color. I used backface culling to keep the effect from covering Ember's face. The final output didn't look that appealing to me, but I did not want to throw it away. Hence I added a checkbox on the UI called _Show Outer Flame_ that is unchecked by default. If a user was to check it, they would see something like this: 
 ![](captures/experimental.gif)  
 
 
