@@ -1,7 +1,7 @@
 # Making Ember from Elemental, Procedurally!
 As I delve deeper into the world of Procedural Graphics, I wanted to use the various tools that this field equipped me with to create something close to my heart. Ember from Elemental (Pixar Animation Studios) was a character that I resonated with very deeply, and hence I wanted to use my learnings of Toolbox functions, noise functions, and WebGL to try to create her! [Try interacting with her yourself!](https://saksham03.github.io/Elemental/)
 Here is what I ended up with (GIF isn't super high-res, screenshot attached later) :  
-![](captures/main_demo.gif)  
+<img src="captures/main_demo.gif" width=500>  
 Overall, I am pretty happy with the final result! I loved the artistic journey I was able to go on with this project, and develop an analytical thinking of using maths to create cool graphics. I will try documenting my 'art direction' below, both for my own sake for later reference and for anybody else who might be interested :)
 
 ## 1. Basics - Structure of Ember's Head
@@ -10,16 +10,16 @@ The first step was of course to create the basic structure. I have used an icosp
 
 | ![](captures/step1_1.jpg) | ![](captures/step1_2.jpg) | ![](captures/step1_3.jpg) |
 |:--:|:--:|:--:|
-| *<b>(a)</b> Starting with an icosphere* | *<b>(b)</b> Scaling to give the capsule look* |  *<b>(c)</b> Sine wave gives the smiley-looking shape* |
+| *Starting with an icosphere* | *Scaling to give the capsule look* |  *Sine wave gives the smiley-looking shape* |
 
 2. Next, I wanted to add the 3 triangle-looking structures on her head. For this, I mapped a triangle wave of appropriate frequency and amplitude on the top part of her head :
 
-| ![](captures/func_triangle.jpg) <br> **+** <br> ![](captures/step1_3.jpg)|= ![](captures/step2_2.jpg) |
+| ![](captures/func_triangle.jpg) <br> **+** <br> <img src="captures/step1_3.jpg" width=350> |= <br><img src="captures/step2_2.jpg" width=350> |
 |:--:|:--:|
 
 3. Now, I wanted to make the middle triangle on Ember's head a bit taller than the other two. For this, I used a square wave as a signal. I used a shifted square wave with half the frequency as that of the triangle wave so that the signal will be 1 only in the middle, where the middle-most triangle is. I was then able to scale it up accordingly :
 
-| ![](captures/func_sq_triang.jpg) <br> **+** <br> ![](captures/step3_1.jpg)|= ![](captures/step3_2.jpg) |
+| ![](captures/func_sq_triang.jpg) <br> **+** <br> <img src="captures/step3_1.jpg" width=350>|= <br><img src="captures/step3_2.jpg" width=350> |
 |:--:|:--:|
 
 4. Finally, I added some **3D Perlin noise** on the top part. I chose it because in my (little) experience, 3D Perlin noise can be tweaked to get the nice flamey/wavy look. For the bottom part, I add a high frequency low amplitude **3D FBM Noise** to give the surface that 'fiery' boiling look. Next up, I added an iridescent shader to give a gradient color palette to the surface that is made up of nice flame colors. I used [this](http://dev.thi.ng/gradients/) source to get the perfect **Cosine Color Gradient Palette** I wanted. The iridescent shader works using the geometry's normals, which gives it the required gradient at any viewing angle.
@@ -62,29 +62,29 @@ And when I was looking at [Inigo Quilez's Blog](https://iquilezles.org/articles/
 This waas probably the most fun part for me personally. I developed a thinking of how various toolbox functions could be employed for a variety of use cases, and was proud of the result that came out of this process.
 1. I start, again, with an icosphere. For the top part, I first again apply a power curve :
 
-| ![](captures/eyelash_step1.jpg) | ![](captures/eyelash_step1_2.jpg) | ![](captures/eyelash_step1_3.jpg) |
+| <img src="captures/eyelash_step1.jpg" width=200> | <img src="captures/eyelash_step1_2.jpg" width=200> | <img src="captures/eyelash_step1_3.jpg" width=200> |
 |:--:|:--:|:--:|
 | *Starting with an icosphere. Again.* | *For demonstration, taking off the bottom* | *Added a power curve* |
 
 2. Next, I wanted to add the lashes on to this structure. For this, I used a saw-tooth curve:
 
-| ![](captures/func_sawtooth.jpg) <br> **+** <br> ![](captures/eyelash_step1_3.jpg)|= <br>![](captures/eyelash_step1_4.jpg) |
+| <img src="captures/func_sawtooth.jpg" width=300> <br> **+** <br> <img src="captures/eyelash_step1_3.jpg" width=200>|= <br><img src="captures/eyelash_step1_4.jpg" width=200> |
 |:--:|:--:|
 
 3. I wanted to give the eyelashes a curvey look to match the reference image better. For this, I used the bias function on top of the sawtooth curve in the previous step which gave me nice-looking eyelashes:
 
-| ![](captures/func_bias.jpg) <br> **+** <br> ![](captures/eyelash_step1_4.jpg)|= <br>![](captures/eyelash_step1_5.jpg) |
+| <img src="captures/func_bias.jpg" width=200> <br> **+** <br> <img src="captures/eyelash_step1_4.jpg" width=200>|= <br><img src="captures/eyelash_step1_5.jpg" width=200> |
 |:--:|:--:|
 
 4. The bottom part was easy, same as the eye's bottom part. Just a power curve:
 
-| ![](captures/eyelash_step1.jpg) | ![](captures/eyelash_step2_1.jpg) | ![](captures/eyelash_step2_2.jpg) |
+| <img src="captures/eyelash_step1.jpg" width=200> | <img src="captures/eyelash_step2_1.jpg" width=200> | <img src="captures/eyelash_step2_2.jpg" width=200> |
 |:--:|:--:|:--:|
 | *Starting with an icosphere. Again.* | *For demonstration, taking off the top* | *Added a power curve* |
 
 5. Finally, combining the two parts, I get my beautiful eyelash!
 
-| ![](captures/eyelash_step1_5.jpg)  <br> **+** <br>  ![](captures/eyelash_step2_2.jpg)|= ![](captures/eyelash_final.jpg) |
+| <img src="captures/eyelash_step1_5.jpg" width=200> <br> **+** <br>  <img src="captures/eyelash_step2_2.jpg" width=200>|= <img src="captures/eyelash_final.jpg" width=200> |
 |:--:|:--:|
 
 ## 5. The Eyeballs
@@ -104,7 +104,7 @@ I showed it to someone without context and they immediately went 'Oh! It is Embe
 
 ## An Experiment
 I was trying to get a volumetric flame-looking appearance around the face and the top part of Ember's head to match the look from the movie. However, the scaled geometry and weird mesh shape kept coming in my way. I was trying to use **FBM-interbed 3D Worley Noise** to drive the alpha channel for the final color. I used backface culling to keep the effect from covering Ember's face. The final output didn't look that appealing to me, but I did not want to throw it away. Hence I added a checkbox on the UI called _Show Outer Flame_ that is unchecked by default. If a user was to check it, they would see something like this: 
-![](captures/experimental.gif)  
 
+<img src="captures/experimental.gif" width=400>  
 
 And that is all! I had so much fun with this project. Hopefully I will be able to find motivation to fix the volumetric effect I was looking for, and maybe make her companion Wade as well at some point!
