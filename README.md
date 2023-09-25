@@ -88,5 +88,23 @@ This waas probably the most fun part for me personally. I developed a thinking o
 |:--:|:--:|
 
 ## 5. The Eyeballs
+I was fortunately able to get done with this pretty quick. Wellm I did spend more time on this than I should have, but nonetheless this was simple. First, I added FBM noise to color the iris to give it a fiery look. Next, to make the pupils black, I simply used the coordinates mapped to the X-Y plane and used a fraction of the eyeball's radius to color a smaller radius black.
+
+| ![](captures/eyeball_step1.jpg) | ![](captures/eyeball_step2.gif) | ![](captures/eyeball_map.jpg) | ![](captures/eyeball_step3.gif) |
+|:--:|:--:|:--:|:--:|
+| *Starting with an icosphere, of course.* | *Adding FBM noise to the color* | *Use the XY coordinates to color the pupil* | *Final result* |
+
+## 6. Finally...
+Once I had all the indiviudal pieces of the puzzle done as described above, I used apprporiate model matrices to find appropriate postions for them. I added some user controls on the UI to enable some level of interactivity. And, comparing to a reference image, my final result doesn't look that bad!
+| ![](captures/reference.jpg) | ![](captures/usercontrols.jpg) |
+|:--:|:--:|
+| *Reference Image* | *Final Result. Not bad!* |
+
+I showed it to someone without context and they immediately went 'Oh! It is Ember from Elemental!'. I was just happy about the fact that it was recognizable to others :)
+
+## An Experiment
+I was trying to get a volumetric flame-looking appearance around the face and the top part of Ember's head to match the look from the movie. However, the scaled geometry and weird mesh shape kept coming in my way. I was trying to use **FBM-interbed 3D Worley Noise** to drive the alpha channel for the final color. I used backface culling to keep the effect from covering Ember's face. The final output didn't look that appealing to me, but I did not want to throw it away. Hence I added a checkbox on the UI called _Render Outer Flame_ that is unchecked by default. If a user was to check it, they would see something like this: 
+![](captures/experimental.gif)  
 
 
+And that is all! I had so much fun with this project. Hopefully I will be able to find motivation to fix the volumetric effect I was looking for, and maybe make her companion Wade as well at some point!
