@@ -19,3 +19,74 @@ The first step was of course to create the basic structure. I have used an icosp
 
 3. Now, I wanted to make the middle triangle on Ember's head a bit taller than the other two. For this, I used a square wave as a signal. I used a shifted square wave with half the frequency as that of the triangle wave so that the signal will be 1 only in the middle, where the middle-most triangle is. I was then able to scale it up accordingly :
 
+| ![](captures/func_sq_triang.jpg) <br> **+** <br> ![](captures/step3_1.jpg)|= ![](captures/step3_2.jpg) |
+|:--:|:--:|
+
+4. Finally, I add some **3D Perlin noise** on the top part as in my experience, 3D Perlin noise can be tweaked to give it the nice flamy look. For the bottom part, I add a high frequency low amplitude **3D FBM Noise** to give the surface that 'fiery' boiling look. Next up, we add an iridescent shader to give a gradient color palette to the surface that is made up of nice flame colors. I used [this](http://dev.thi.ng/gradients/) source to get the perfect **Cosine Color Gradient Palette** I wanted. The iridescent shader works using the geometry's normals, which gives it the required gradient at any viewing angle.
+
+| ![](captures/step3_2.jpg) | ![](captures/step3_3.gif) | ![](captures/step4_2_iridshader.gif) | ![](captures/step4_2_ss.jpg) |
+|:--:|:--:|:--:|:--:|
+| *Adding time-varying 3D Perlin & FBMs* | *Ember is slowly coming to life!* | *Adding the cosine color palette* | *Screenshot of the iridescent shader for resolution* |  
+
+
+## 2. Moving on - making the Eyebrows
+The eyebrows were an easy win. I started with an icosphere again, squished it into a capsule, and applied a shifted sine curve to give it the appropriate look. It was funny as to how complex I was initally making it, and how just a simple sine wave worked so well for me. I reused the iridescent shader to match Ember's actual look from the movie.  
+| ![](captures/brow_step1.jpg) | ![](captures/brow_step2.jpg) | ![](captures/brow_step3.jpg) | ![](captures/brow_step4.gif) |
+|:--:|:--:|:--:|:--:|
+| *Starting with an icosphere* | *Simple scaling/squishing* | *Adding a shifted sine wave* | *aaand done* |
+
+## 3. Making the Eyes
+The eyes were a fun process. My first thought was to use shifted power curves:  
+![](captures/func_power.jpg)  
+And when I was looking at [Inigo Quilez's Blog](https://iquilezles.org/articles/functions/) for motivation, him precisely mentioning the use of power curves for eyes gave me a temporary ego boost. I used two different power curves for the top and the bottom halves of the eye. I chalked out a quick [desmos](https://www.desmos.com/calculator/u7g4m31wqp) to test my imagination, so feel free to play around with it!
+
+1. For the Top portion:
+
+| ![](captures/eye_step1.jpg) | ![](captures/eye_step2.jpg) | ![](captures/eye_step3.jpg) |
+|:--:|:--:|:--:|
+| *Starting with an icosphere. Again.* | *For demonstration, taking off the bottom* | *Added a power curve a=0.4 b=0.6, scale=0.16* |
+
+2. For the bottom portion:
+
+| ![](captures/eye_step1.jpg) | ![](captures/eye_step4.jpg) | ![](captures/eye_step5.jpg) |
+|:--:|:--:|:--:|
+| *Starting with an icosphere. Again.* | *For demonstration, taking off the top* | *Added a power curve a=0.5, b-0.8, scale=0.06* |
+
+3. Finally combining them together:
+
+| ![](captures/eye_step3.jpg) <br> **+** <br> ![](captures/eye_step5.jpg)|= <br>![](captures/eye_final.jpg) |
+|:--:|:--:|
+
+
+## 4. Making the Eyelashes
+This waas probably the most fun part for me personally. I developed a thinking of how varioust oolbox functions could be employed for various use cases, and was proud of the result that came out of this process.
+1. I start, again, with an icosphere. For the top part, I first again apply a power curve :
+
+| ![](captures/eyelash_step1.jpg) | ![](captures/eyelash_step1_2.jpg) | ![](captures/eyelash_step1_3.jpg) |
+|:--:|:--:|:--:|
+| *Starting with an icosphere. Again.* | *For demonstration, taking off the bottom* | *Added a power curve* |
+
+2. Next, I wanted to give the lashes to this structure. For this, I used a saw-tooth curve:
+
+| ![](captures/func_sawtooth.jpg) <br> **+** <br> ![](captures/eyelash_step1_3.jpg)|= <br>![](captures/eyelash_step1_4.jpg) |
+|:--:|:--:|
+
+3. I wanted to give the eyelashes a curvey look to match the reference image better. For this, I used the bias function on top of the sawtooth curve in the previous step which gave me nice-looking eyelashes:
+
+| ![](captures/func_bias.jpg) <br> **+** <br> ![](captures/eyelash_step1_4.jpg)|= <br>![](captures/eyelash_step1_5.jpg) |
+|:--:|:--:|
+
+4. The bottom part was easy, same as the eye's bottom part. Just a power curve:
+
+| ![](captures/eyelash_step1.jpg) | ![](captures/eyelash_step2_1.jpg) | ![](captures/eyelash_step2_2.jpg) |
+|:--:|:--:|:--:|
+| *Starting with an icosphere. Again.* | *For demonstration, taking off the top* | *Added a power curve* |
+
+5. Finally, combining the two parts, I get my beautiful eyelash!
+
+| ![](captures/eyelash_step1_5.jpg) **+** ![](captures/eyelash_step2_2.jpg)|= ![](captures/eyelash_final.jpg) |
+|:--:|:--:|
+
+## 5. The Eyeballs
+
+
