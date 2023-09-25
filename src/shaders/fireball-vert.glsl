@@ -3,6 +3,9 @@
 
 uniform float u_Time;
 uniform float u_Scale;
+uniform float u_PerlinFreq;
+uniform float u_FbmAmp;
+uniform float u_FbmFreq;
 uniform vec3 u_CamPos;
 
 uniform mat4 u_Model;
@@ -30,14 +33,6 @@ float square_wave(float x, float freq, float amp) {
 
 float triangle_wave(float x, float freq, float amp) {
     return abs(mod((x*freq), amp) - (0.5 * amp ));
-}
-
-float sawtooth_wave(float x, float freq, float amp) {
-    return ( x* freq - floor(x*freq)) * amp;
-}
-
-float expImpulse(float x, float k) {
-    return k*x*exp(1.0 - k*x);
 }
 
 float bias(float b, float t) {
@@ -132,9 +127,6 @@ void main()
 {
     fs_Col = vs_Col;
     fs_Pos = vs_Pos;    
-    vec4 org_pos = vs_Pos;
-    vec3 voronoi;
-    
 
     //scaling for the capsule shape
     fs_Pos.xyz *= vec3(1.5, 0.85, 0.85);
@@ -157,25 +149,25 @@ void main()
         fs_Pos.z = mix(fs_Pos.z, bias(tri_wave, 0.8), 0.4);
 
         float perlinNoise = 
-        perlin3d( 0.5 * 
+        perlin3d( u_PerlinFreq * 
             vec3(
-                fs_Pos.x + cos(u_Time * 0.001f + 1.2f),
-                fs_Pos.y - sin(u_Time * 0.002f),
-                fs_Pos.z + sin(u_Time * 0.001f)
+                fs_Pos.x + cos(u_Time * 0.003f + 1.2f),
+                fs_Pos.y - sin(u_Time * 0.002f + 2.3f),
+                fs_Pos.z + sin(u_Time * 0.001f + 4.5f)
                 )
                 );
 
-        fs_Pos.xyz += perlinNoise/8.f;
+        fs_Pos.xyz += perlinNoise/6.f;
         fs_Pos.x += sin(fs_Pos.y * 10.f + u_Time * 0.01f)/15.f;                
     }
 
     //apply low amplitude, high frequency FBM to give the surface a
     //subtle distortion-like effect    
-    fs_Pos.xyz += fbm3D(vec3(
+    fs_Pos.xyz += vs_Nor.xyz * fbm3D(vec3(
         fs_Pos.x + cos(u_Time * 0.005),
         fs_Pos.y + sin(u_Time* 0.005),
-        fs_Pos.z + cos(u_Time* 0.005)),
-        0.05, 15.0);
+        fs_Pos.z + cos(u_Time* 0.005)) * 0.1,
+        0.01 * u_FbmAmp, u_FbmFreq);
 
     fs_Pos.xyz *= u_Scale;
 

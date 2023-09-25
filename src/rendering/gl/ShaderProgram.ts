@@ -29,10 +29,18 @@ class ShaderProgram {
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
+  unifSecColor: WebGLUniformLocation;
   unifTime: WebGLUniformLocation;
   unifScale: WebGLUniformLocation;
   unifCamPos: WebGLUniformLocation;
   unifIcoRadius: WebGLUniformLocation;
+  unifIrid_a: WebGLUniformLocation;
+  unifIrid_b: WebGLUniformLocation;
+  unifIrid_c: WebGLUniformLocation;
+  unifIrid_d: WebGLUniformLocation;
+  unifPerlinFreq: WebGLUniformLocation;
+  unifFbmAmp: WebGLUniformLocation;
+  unifFbmFreq: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
@@ -52,10 +60,18 @@ class ShaderProgram {
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
+    this.unifSecColor   = gl.getUniformLocation(this.prog, "u_SecColor");
     this.unifTime       = gl.getUniformLocation(this.prog, "u_Time");
     this.unifScale      = gl.getUniformLocation(this.prog, "u_Scale");
     this.unifCamPos     = gl.getUniformLocation(this.prog, "u_CamPos");
     this.unifIcoRadius  = gl.getUniformLocation(this.prog, "u_IcosphereRadius");
+    this.unifIrid_a     = gl.getUniformLocation(this.prog, "u_Irid_a");
+    this.unifIrid_b     = gl.getUniformLocation(this.prog, "u_Irid_b");
+    this.unifIrid_c     = gl.getUniformLocation(this.prog, "u_Irid_c");
+    this.unifIrid_d     = gl.getUniformLocation(this.prog, "u_Irid_d");
+    this.unifPerlinFreq = gl.getUniformLocation(this.prog, "u_PerlinFreq");
+    this.unifFbmAmp     = gl.getUniformLocation(this.prog, "u_FbmAmp");
+    this.unifFbmFreq    = gl.getUniformLocation(this.prog, "u_FbmFreq");
   }
 
   use() {
@@ -93,6 +109,42 @@ class ShaderProgram {
     }
   }
 
+  setSecondaryColor(color: vec4) {
+    this.use();
+    if (this.unifSecColor !== -1) {
+      gl.uniform4fv(this.unifSecColor, color);
+    }
+  }
+
+  setIridA(col: vec3) {
+    this.use();
+    if (this.unifIrid_a !== -1) {
+      gl.uniform3fv(this.unifIrid_a, col);
+    }
+  }
+
+  setIridB(col: vec3) {
+    this.use();
+    if (this.unifIrid_b !== -1) {
+      gl.uniform3fv(this.unifIrid_b, col);
+    }
+  }
+
+  setIridC(col: vec3) {
+    this.use();
+    if (this.unifIrid_c !== -1) {
+      gl.uniform3fv(this.unifIrid_c, col);
+    }
+  }
+
+  setIridD(col: vec3) {
+    this.use();
+    if (this.unifIrid_d !== -1) {
+      gl.uniform3fv(this.unifIrid_d, col);
+    }
+  }
+
+
   setTime(time: number) {
     this.use();
     if (this.unifTime !== -1) {
@@ -104,6 +156,27 @@ class ShaderProgram {
     this.use();
     if (this.unifScale !== -1) {
       gl.uniform1f(this.unifScale, scale);
+    }
+  }
+
+  setPerlinFrequency(freq: number) {
+    this.use();
+    if (this.unifPerlinFreq !== -1) {
+      gl.uniform1f(this.unifPerlinFreq, freq);
+    }
+  }
+
+  setFbmAmplitude(amp: number) {
+    this.use();
+    if (this.unifFbmAmp !== -1) {
+      gl.uniform1f(this.unifFbmAmp, amp);
+    }
+  }
+
+  setFbmFrequency(freq: number) {
+    this.use();
+    if (this.unifFbmFreq !== -1) {
+      gl.uniform1f(this.unifFbmFreq, freq);
     }
   }
 

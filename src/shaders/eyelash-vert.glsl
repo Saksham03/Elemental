@@ -21,12 +21,6 @@ float bias(float b, float t) {
     return pow(t, log(b)/log(0.5));
 }
 
-float gain(float g, float t) {
-    if(t < 0.5f) 
-        return bias(1.f - g, 2.0*t)/2.0;
-    return 1.0 - bias(1.f - g, 2.0 - 2.0*t)/2.0;
-}
-
 void main() {
     fs_Pos = vs_Pos;
     fs_Pos.x += u_IcosphereRadius;

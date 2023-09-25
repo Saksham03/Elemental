@@ -3,14 +3,24 @@
 precision highp float;
 
 uniform vec4 u_Color;
+uniform vec4 u_SecColor;
 uniform float u_Time;
+uniform vec3 u_CamPos;
 
 in vec4 fs_Nor;
 in vec4 fs_LightVec;
 in vec4 fs_Pos;
 in vec4 fs_Col;
-
+in vec3 viewVec;
 out vec4 out_Col;
+
+float square_wave(float x, float freq, float amp) {
+    return abs(mod(floor(x*freq), 2.0) * amp);
+}
+
+float triangle_wave(float x, float freq, float amp) {
+    return abs(mod((x*freq), amp) - (0.5 * amp ));
+}
 
 vec3 noise3D(vec3 v) {
     return fract(sin(vec3(dot(v,vec3(127.1, 311.7, 41.09)),
@@ -122,6 +132,58 @@ float fbm3D(vec3 p, float amp, float growth_factor) {
     return value;
 }
 
+float distanceFunc(vec3 p)
+{        
+        float d = length(p) - length(fs_Pos.xyz) - 0.3;
+	// add noise to the surface
+        d += fbm3D(p + u_Time * 0.001, 10.5, 3.5) * 0.07;
+	return d;
+}
+
+// shade a point based on distance
+vec4 shade(float d)
+{
+        vec4 c1 = vec4(0.8, 0.2, 0.2, 1.0);
+        vec4 c2 = vec4(0.8, 0.2, 0.2, 0.7);
+        vec4 c3 = vec4(0.8, 0.2, 0.2, 0.0);
+        vec4 c4 = vec4(1.0, 0.0, 0.0, 0.0);
+        if(d > 6.5)
+        return(mix(c1,c2, 0.5));
+        if(d > 4.5)
+        return(mix(c2, c3, 0.5));
+        return(mix(c3, c4, 0.5));
+        //if (d >= 0.0 && d < 0.1) return (mix(vec4(3, 3, 3, 1), vec4(1, 1, 0, 1), d / 0.2));
+	// if (d >= 0.2 && d < 0.4) return (mix(vec4(1, 1, 0, 1), vec4(1, 0, 0, 1), (d - 0.2) / 0.2));
+	// if (d >= 0.4 && d < 0.6) return (mix(vec4(1, 0, 0, 1), vec4(0, 0, 0, 0), (d - 0.4) / 0.2));
+        //if (d >= 0.6 && d < 1.0) return (mix(vec4(0, 0, 0, 0), vec4(0, .5, 1, 0.2), (d - 0.6) / 0.2));
+        // if (d >= 0.8 && d < 1.0) return (mix(vec4(0, .5, 1, .2), vec4(0, 0, 0, 0), (d - 0.8) / 0.2));            
+        //return vec4(1.0, 0.0, 0.0, 0.0);
+}
+
+// procedural volume
+// maps position to color
+vec4 volumeFunc(vec3 p)
+{
+    //p.xz = rotate(p.xz, p.y*2.0 + iTime);	// firestorm
+	float d = distanceFunc(p);
+	return shade(d) ;
+}
+
+vec4 rayMarch(vec3 rayOrigin, vec3 rayDir, int steps)
+{
+	vec4 sum = vec4(0, 0, 0, 0);
+	vec3 pos = rayOrigin;
+	for(int i=0; i< steps; i++) {
+		vec4 col = volumeFunc(pos);
+		// col.a *= 0.2;
+		// pre-multiply alpha
+		col.rgb *= col.a;
+		sum = sum + col*(1.0 - sum.a);	
+		pos += 0.13 * rayDir;
+	}
+	return sum;
+}
+
 void main()
 {
     
@@ -141,22 +203,31 @@ void main()
         // Compute final shaded color
         vec3 p = fs_Pos.yzx;
         p.x -= u_Time * 0.003;
-        p.y -= u_Time * 0.001;
+        p.y -= u_Time * 0.003;
         // float randx = .1f * worleyNoise(fs_Pos.xyz * 0.5, 1.0);// + sin(u_Time) * 0.005;
         // float randy = .5f * perlin3d(fs_Pos.zxy * 0.5);// + cos(u_Time) * 0.005;
         // float randz = 1.5f * perlin3d(p * 0.5);// * cos(u_Time) * 4.5;
         
-        float amp = 2.5;
-        float growth_factor = .5;
+        float amp = .9;
+        float growth_factor = 2.5;
         float randx = .1f * fbm3D(fs_Pos.xyz * 0.5, amp, growth_factor);// + sin(u_Time) * 0.005;
         float randy = .5f * fbm3D(fs_Pos.zxy * 0.5, amp, growth_factor);// + cos(u_Time) * 0.005;
         float randz = 1.5f * fbm3D(p * 0.5, amp, growth_factor);// * cos(u_Time) * 4.5;
         float noise;
-        noise = worleyNoise(vec3(randx, randy, randz), 3.0); 
-        noise = smoothstep(0.4, 0.8, noise);
-        // noise = clamp(noise * 0.4, 0.0, 1.0);
-        //noise = clamp(noise, 0.0, 1.0);
-        // noise += fbm3D(vec3(noise) * 0.001, amp, growth_factor);
-        out_Col = vec4(vec3(183.f/255.f, 97.f/255.f, 17.f/255.f), noise);        
+        noise = worleyNoise(vec3(randx, p.x, randz), 7.0); 
+        // noise = worleyNoise(p, 7.5);         
+        // noise = fbm3D(vec3(randx, randy, randz), amp, growth_factor);
+
+        noise = smoothstep(0.6, 0.7, noise);
+        vec3 col = mix(u_SecColor.rgb, u_Color.rgb, noise);
+        out_Col = vec4(col, noise);
+
+
+        vec3 org = vec3(0, 3, 10);
+        // vec4 raymarchcol = rayMarch(u_CamPos, fs_Pos.xyz - u_CamPos, 20);
+        // float weighted_angle = (sin(acos(dot(fs_Nor.xyz, viewVec))) + 1.f)/2.f;
+        // out_Col = raymarchcol;
+        // out_Col = vec4(raymarchcol.xyz, weighted_angle * raymarchcol.w);
         // out_Col = vec4(vec3(noise), noise);
+        // out_Col = vec4(vec3(noise), 1.0);
 }
