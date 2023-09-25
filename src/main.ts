@@ -27,6 +27,22 @@ const controls = {
   fbmFreq: 15,
 };
 
+const defaults = {
+  tesselations: 5,
+  renderOuterFlame: false,
+  'Load Scene': loadScene, // A function pointer, essentially
+  'irid_a': [0.91 * 255, 0.318 * 255, -0.91 * 255],
+  'irid_b': [0.048 * 255, 0.448 * 255, 0.098 * 255],
+  'irid_c': [-0.972 * 255, -0.442 * 255, 0.000 * 255],
+  'irid_d': [-0.442 * 255, -0.572 * 255, 0.000 * 255],
+  'outerFlameCol1': [190,49,49],
+  'outerFlameCol2': [205,99,44],
+  'featCol': [0.8 * 255, 0.2 * 255, 0.2 * 255],
+  perlinFreq: 0.5,
+  fbmAmp: 7,
+  fbmFreq: 15,
+};
+
 let icosphere: Icosphere;
 let outerFlame: Icosphere;
 let leftBrow: Icosphere;
@@ -76,6 +92,18 @@ function loadScene() {
   square.create();
   cube = new Cube(vec3.fromValues(5, 5, 5));
   cube.create();
+  controls.tesselations = defaults.tesselations;
+  controls.renderOuterFlame = defaults.renderOuterFlame;
+  controls.irid_a = defaults.irid_a;
+  controls.irid_b = defaults.irid_b;
+  controls.irid_c = defaults.irid_c;
+  controls.irid_d = defaults.irid_d;
+  controls.outerFlameCol1 = defaults.outerFlameCol1;
+  controls.outerFlameCol2 = defaults.outerFlameCol2;
+  controls.featCol = defaults.featCol;
+  controls.perlinFreq = defaults.perlinFreq;
+  controls.fbmAmp = defaults.fbmAmp;
+  controls.fbmFreq = defaults.fbmFreq;
 }
 
 function main() {
@@ -105,7 +133,6 @@ function main() {
   outerflame.add(controls, 'renderOuterFlame').name("Show Outer Flame");  
   outerflame.addColor(controls, 'outerFlameCol1').name("Outer Flame Main");
   outerflame.addColor(controls, 'outerFlameCol2').name("Outer Flame Highlight");
-
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');
