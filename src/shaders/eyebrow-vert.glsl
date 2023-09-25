@@ -24,26 +24,6 @@ out vec3 viewVec;
 
 const vec4 lightPos = vec4(5, 5, 3, 1);
 
-float square_wave(float x, float freq, float amp) {
-    return abs(mod(floor(x*freq), 2.0) * amp);
-}
-
-float triangle_wave(float x, float freq, float amp) {
-    return abs(mod((x*freq), amp) - (0.5 * amp ));
-}
-
-float sawtooth_wave(float x, float freq, float amp) {
-    return ( x* freq - floor(x*freq)) * amp;
-}
-
-float expImpulse(float x, float k) {
-    return k*x*exp(1.0 - k*x);
-}
-
-float bias(float b, float t) {
-    return pow(t, log(b)/log(0.5));
-}
-
 float random1(vec3 p) {
     return fract(sin(dot(p, vec3(12.9898,78.233, 98.4675))) * 43758.5453123);
 }
@@ -104,8 +84,8 @@ void main()
     fs_Pos.xy *= 0.6;
 
 
-    //apply low amplitude, high frequency FBM to give the surface a
-    //subtle distortion-like effect    
+    // apply low amplitude, high frequency FBM to give the surface a
+    // subtle distortion-like effect    
     fs_Pos.xyz += fbm3D(vec3(
         fs_Pos.x + cos(u_Time * 0.005),
         fs_Pos.y + sin(u_Time* 0.005),

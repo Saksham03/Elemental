@@ -227,6 +227,7 @@ function main() {
 
     let identityModel = mat4.create();
     mat4.identity(identityModel);
+    baseEmber.setGeometryColor(vec4.fromValues(205/255, 99/255, 44/255, 1));
     baseEmber.setIridA(vec3.fromValues(controls.irid_a[0]/255, controls.irid_a[1]/255, controls.irid_a[2]/255));
     baseEmber.setIridB(vec3.fromValues(controls.irid_b[0]/255, controls.irid_b[1]/255, controls.irid_b[2]/255));
     baseEmber.setIridC(vec3.fromValues(controls.irid_c[0]/255, controls.irid_c[1]/255, controls.irid_c[2]/255));
