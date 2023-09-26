@@ -5,7 +5,7 @@ Here is what I ended up with (GIF isn't super high-res, screenshot attached late
 Overall, I am pretty happy with the final result! I loved the artistic journey I was able to go on with this project, and develop an analytical thinking of using maths to create cool graphics. I will try documenting my 'art direction' below, both for my own sake for later reference and for anybody else who might be interested :)
 
 ## 1. Basics - Structure of Ember's Head
-The first step was of course to create the basic structure. I have used an icosphere mesh for all parts of Ember. I then use various mathematical functions to tweak it shape to make it look like what I want. For the head, my sequential train of thought (with results) was as follows:
+The first step was of course to create the basic structure. I have used an icosphere mesh for all parts of Ember. I then use various mathematical functions to tweak its shape and make it look like what I want. For the head, my sequential train of thought (with results) was as follows:
 1. First, I squish (scale) the sphere to distort into a capsule-looking shape. Then, I apply a scaled sine wave to all the vertices to give the head a smiley-looking appearance. A section of the downard trend of the sin curve does the trick for me.
 
 | ![](captures/step1_1.jpg) | ![](captures/step1_2.jpg) | ![](captures/step1_3.jpg) |
@@ -95,7 +95,7 @@ I was fortunately able to get done with this pretty quickly. Well, I did spend m
 | *Starting with an icosphere, of course.* | *Adding FBM noise to the color* | *Use the XY coordinates to color the pupil* | *Final result* |
 
 ## 6. Finally...
-Once I had all the indiviudal pieces of the puzzle done as described above, I used apprporiate model matrices to find appropriate postions for them. I added some user controls on the UI to enable some level of interactivity. And, comparing to a reference image, my final result doesn't look that bad!
+The mouth and the nose were creaeted pretty similary to the other parts as described (simple sin/triangle waves and scaling). Once I had all the indiviudal pieces of the puzzle done as described above, I used apprporiate model matrices to find appropriate postions for them. I added some user controls on the UI to enable some level of interactivity. And, comparing to a reference image, my final result doesn't look that bad!
 | ![](captures/reference.jpg) | ![](captures/usercontrols.jpg) |
 |:--:|:--:|
 | *Reference Image* | *Final Result. Not bad!* |
