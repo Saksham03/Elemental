@@ -31,7 +31,7 @@ The first step was of course to create the basic structure. I have used an icosp
 
 ## 2. Moving on - making the Eyebrows
 The eyebrows were an easy win. I started with an icosphere again, squished it into a capsule, and applied a shifted sine curve to give it the appropriate look. It was funny as to how complex I was initally making it, and how just a simple sine wave worked so well for me. I reused the iridescent shader to match Ember's actual look from the movie.  
-| ![](captures/brow_step1.jpg) | ![](captures/brow_step2.jpg) | ![](captures/brow_step3.jpg) | ![](captures/brow_step4.gif) |
+| ![](captures/brow_step1.jpg) | ![](captures/brow_step2.jpg) | ![](captures/brow_sin.jpg) | ![](captures/brow_step4.gif) |
 |:--:|:--:|:--:|:--:|
 | *Starting with an icosphere* | *Simple scaling/squishing* | *Adding a shifted sine wave* | *aaand done* |
 
@@ -95,7 +95,7 @@ I was fortunately able to get done with this pretty quickly. Well, I did spend m
 | *Starting with an icosphere, of course.* | *Adding FBM noise to the color* | *Use the XY coordinates to color the pupil* | *Final result* |
 
 ## 6. Finally...
-The mouth and the nose were creaeted pretty similary to the other parts as described (simple sin/triangle waves and scaling). Once I had all the indiviudal pieces of the puzzle done as described above, I used apprporiate model matrices to find appropriate postions for them. I added some user controls on the UI to enable some level of interactivity. And, comparing to a reference image, my final result doesn't look that bad!
+The mouth and the nose were created pretty similary to the other parts as described (simple sin/triangle waves and scaling). Once I had all the indiviudal pieces of the puzzle done as described above, I used apprporiate model matrices to find appropriate postions for them. I added some user controls on the UI to enable some level of interactivity. And, comparing to a reference image, my final result doesn't look that bad!
 | ![](captures/reference.jpg) | ![](captures/usercontrols.jpg) |
 |:--:|:--:|
 | *Reference Image* | *Final Result. Not bad!* |
